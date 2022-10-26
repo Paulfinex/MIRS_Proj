@@ -28,6 +28,7 @@ int main(int argc, char const *argv[]){
       getline(infile, docbody, '\n');
       docbody = remove_punctuation(docbody);
       docbody = remove_stopwords(docbody);
+      vector<string> docsToken = tokenize_text(docbody);
       cout << docbody;
       system("pause");
 

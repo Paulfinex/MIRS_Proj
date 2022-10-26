@@ -9,17 +9,13 @@
 
 std::vector<std::string> tokenize_text(std::string body)
 {
-	
 	std::stringstream ss(body);
-	//std::istream_iterator<std::string> begin(ss);
-	//std::istream_iterator<std::string> end;
 	std::vector<std::string> vstrings;
 	while(!ss.eof()){
 		std::string word;
 		ss >> word;
 		vstrings.push_back(word);
 	}
-	//std::copy(vstrings.begin(), vstrings.end(), back_inserter(vstrings));
 	return vstrings;
 }
 
@@ -96,12 +92,4 @@ std::string remove_punctuation(std::string body)
 	return vector_to_string(words);
 
 }
-
-
-
-
-
-
-
-
 
