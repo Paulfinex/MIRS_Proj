@@ -1,18 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <iostream>
-#include <regex>
-#include <string>
-#include <cctype>
-#include <fstream>
-#include <vector>
-#include <algorithm>
-#include <Windows.h>
-#include <sstream>
-#include <sstream>
-#include <fstream>
-#include <codecvt>
-
 #include "../headers/olestem/stemming/english_stem.h"
 #include "../headers/body_normalization.hpp"
 using namespace std;
@@ -41,7 +26,11 @@ int main(int argc, char const *argv[]){
       string docbody;
       getline(infile, docno, '\t');
       getline(infile, docbody, '\n');
-      
+      docbody = remove_punctuation(docbody);
+      docbody = remove_stopwords(docbody);
+      cout << docbody;
+      system("pause");
+
       /**
        * @todo implementing document table:
        *    docno to docid mapping

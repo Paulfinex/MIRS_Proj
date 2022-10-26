@@ -1,17 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <iostream>
 #include <regex>
 #include <string>
-#include <cctype>
-#include <fstream>
 #include <vector>
-#include <algorithm>
-#include <Windows.h>
 #include <sstream>
-#include <sstream>
-#include <fstream>
-#include <codecvt>
 
 #include "../headers/olestem/stemming/english_stem.h"
 
@@ -19,12 +11,16 @@ std::vector<std::string> tokenize_text(std::string body)
 {
 	
 	std::stringstream ss(body);
-	std::istream_iterator<std::string> begin(ss);
-	std::istream_iterator<std::string> end;
-	std::vector<std::string> vstrings(begin, end);
-	std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
+	//std::istream_iterator<std::string> begin(ss);
+	//std::istream_iterator<std::string> end;
+	std::vector<std::string> vstrings;
+	while(!ss.eof()){
+		std::string word;
+		ss >> word;
+		vstrings.push_back(word);
+	}
+	//std::copy(vstrings.begin(), vstrings.end(), back_inserter(vstrings));
 	return vstrings;
-
 }
 
 std::string vector_to_string(std::vector <std::string> vec)
@@ -42,7 +38,7 @@ std::string remove_stopwords(std::string body)
 	//Setup file variable ( TODO use ARGV )
 
 	std::string line;
-	std::ifstream file_stopword("C:\\Users\\Papera\\Desktop\\MIRS Project\\stopwords.txt");
+	std::ifstream file_stopword("../data/input/stopwords.txt");
 
 	std::vector<std::string> words = tokenize_text(body);
 	//Iterate lines in file
