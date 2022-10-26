@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <locale>
+#include <codecvt>
 
 #include "../headers/olestem/stemming/english_stem.h"
 
@@ -93,3 +95,11 @@ std::string remove_punctuation(std::string body)
 
 }
 
+std::wstring convert_to_wstring(std::string s){
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+	return converter.from_bytes(s);
+}
+std::string convert_to_string(std::wstring s){
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+	return converter.to_bytes(s);
+}

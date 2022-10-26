@@ -24,12 +24,21 @@ int main(int argc, char const *argv[]){
     while(!infile.eof()){
       string docno;
       string docbody;
+      // document-by-document reading of the documents
       getline(infile, docno, '\t');
       getline(infile, docbody, '\n');
+      // text processing of the document
       docbody = remove_punctuation(docbody);
       docbody = remove_stopwords(docbody);
       vector<string> docsToken = tokenize_text(docbody);
-      cout << docbody;
+      // stemming
+      stemming::english_stem<> EngStemmer;
+      for(string s: docsToken){
+        wstring tmp = convert_to_wstring(s);
+        EngStemmer(tmp);
+        s = convert_to_string(tmp);
+        cout << s << endl;
+      }
       system("pause");
 
       /**
