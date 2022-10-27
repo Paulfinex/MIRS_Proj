@@ -2,11 +2,6 @@
 #include "../headers/body_normalization.hpp"
 using namespace std;
 
-vector<string> tokenize_text();
-string vector_to_string();
-string remove_stopwords();
-string remove_punctuation();
-
 int main(int argc, char const *argv[]){
   /**
    * @todo reading file line-by-line and foreach line{
