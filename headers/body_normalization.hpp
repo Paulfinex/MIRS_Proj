@@ -54,12 +54,10 @@ std::string vector_to_string(std::vector <std::string> vec)
  * @param body the string from where to remove stopwords
  * @return modified string without stopwords
  */
-std::string remove_stopwords(std::string body)
+std::vector<std::string> remove_stopwords(std::vector<std::string> words)
 {
 	std::string line;
 	std::ifstream file_stopword("../data/input/stopwords.txt");
-
-	std::vector<std::string> words = tokenize_text(body);
 	//Iterate lines in file
 	if (file_stopword.is_open())
 	{
@@ -74,7 +72,7 @@ std::string remove_stopwords(std::string body)
 
 		}
 	}
-	return vector_to_string(words);
+	return words;
 }
 
 void debug(std::string s){
@@ -103,9 +101,13 @@ std::string trim(std::string s){
 std::string normalize_text(std::string body)
 {
 	std::string text = body;
+	// regex for extra characters removal
 	std::regex extraChar("[^\\w\\s]+");
+	// regex for extra spaces removal
 	std::regex extraSpace("\\s+");
+	// lowercasing
 	transform(text.begin(), text.end(), text.begin(), tolower);
+	// replacing and trimming of the text string
 	text = trim(regex_replace(regex_replace(text, extraChar, ""), extraSpace, " "));
 	return text;
 }
@@ -139,13 +141,11 @@ std::string convert_to_string(std::wstring s){
  * @param text string to be stemmed and tokenized
  * @return vector of stemmed tokens
  */
-std::vector<std::string> text_stemming(std::string text) 
-{
+std::vector<std::string> stemmer(std::vector<std::string> docsTokens) {
 
-	std::vector<std::string> docsToken = tokenize_text(text);
 	std::vector<std::string> resultToken;
 	stemming::english_stem<> EngStemmer;
-	for (std::string s : docsToken) {
+	for (std::string s : docsTokens) {
 		std::wstring tmp = convert_to_wstring(s);
 		EngStemmer(tmp);
 		s = convert_to_string(tmp);
