@@ -33,8 +33,9 @@ int main(int argc, char const *argv[]){
       getline(infile, docbody, '\n');
       // text processing of the document
       docbody = normalize_text(docbody);
-      docbody = remove_stopwords(docbody);      
-      vector<string> stem_tokens = text_stemming(docbody);
+      vector<string> tokens = tokenize_text(docbody);
+      tokens = remove_stopwords(tokens);      
+      vector<string> stem_tokens = stemmer(tokens);
       count++;
       inverted_index(count, stem_tokens, invIndex);
       cout << "_______" << endl << "Doc Index:";
