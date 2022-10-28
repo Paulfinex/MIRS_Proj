@@ -14,36 +14,42 @@ int main(int argc, char const *argv[]){
    *    saving the posting list data structure as a sorted skipping list for each token
    * } 
    */
-  try{
-    ifstream infile("../data/input/sample_dataframe.tsv");
-    while(!infile.eof()){
-      string docno;
-      string docbody;
-      // document-by-document reading of the documents
-      getline(infile, docno, '\t');
-      getline(infile, docbody, '\n');
-      // text processing of the document
-      docbody = remove_punctuation(docbody);
-      docbody = remove_stopwords(docbody);
-      vector<string> docsToken = tokenize_text(docbody);
-      // stemming
-      stemming::english_stem<> EngStemmer;
-      for(string s: docsToken){
-        wstring tmp = convert_to_wstring(s);
-        EngStemmer(tmp);
-        s = convert_to_string(tmp);
-        cout << s << endl;
+    ifstream infile;
+    try
+    {
+      infile.open("../data/input/sample_dataframe.tsv", ios::in);
+      if(!infile.is_open()){
+        throw ifstream::failure("404: File Not Found");
       }
-      system("pause");
+      while (!infile.eof())
+      {
+        string docno;
+        string docbody;
+        // document-by-document reading of the documents
+        getline(infile, docno, '\t');
+        getline(infile, docbody, '\n');
+        // text processing of the document
+        docbody = remove_punctuation(docbody);
+        docbody = remove_stopwords(docbody);
+        vector<string> docsToken = tokenize_text(docbody);
+        // stemming
+        stemming::english_stem<> EngStemmer;
+        for (string s : docsToken)
+        {
+          wstring tmp = convert_to_wstring(s);
+          EngStemmer(tmp);
+          s = convert_to_string(tmp);
+          cout << s << endl;
+        }
+        std::system("pause");
 
-      /**
-       * @todo implementing document table:
-       *    docno to docid mapping
-       *    each docno must be mapped to a docid and a body length
-       *    body length must be calculated over the modified body to better assess the doc_score in ranking
-       */
-      
-    }
+        /**
+         * @todo implementing document table:
+         *    docno to docid mapping
+         *    each docno must be mapped to a docid and a body length
+         *    body length must be calculated over the modified body to better assess the doc_score in ranking
+         */
+      }
   }catch(ifstream::failure& e){
     cout << e.what() << endl;
     exit(EXIT_FAILURE);
