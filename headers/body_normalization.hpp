@@ -77,6 +77,22 @@ std::string remove_stopwords(std::string body)
 	return vector_to_string(words);
 }
 
+void debug(std::string s){
+	std::cout << s << std::endl;
+	std::system("pause");
+}
+
+/**
+ * @brief function to trim a given string
+ * 
+ * @param s the string to trim 
+ * @return the trimmed string
+ */
+std::string trim(std::string s){
+	std::regex ltrim("^\\s+");
+	std::regex rtrim("$\\s+");
+	return regex_replace(regex_replace(s, ltrim, ""),rtrim,"");
+}
 
 /**
  * @brief function normalizing the passed string
@@ -87,35 +103,11 @@ std::string remove_stopwords(std::string body)
 std::string normalize_text(std::string body)
 {
 	std::string text = body;
-	std::regex regexp("[A-Za-z0-9]{1,}");
-	std::smatch match;
-	//Search in the query for a match
-	std::regex_search(text, match, regexp);
-	//Create an iterator to loop the matches
-	std::sregex_iterator currentMatch(text.begin(), text.end(), regexp);
-	std::sregex_iterator lastMatch;
-
-	std::vector<std::string> words{};
-
-	//Iterate over all the regex matches
-	while (currentMatch != lastMatch)
-	{
-
-		std::smatch m = *currentMatch;
-		std::string lower_match = m.str();
-
-		//Lowercase string
-		std::transform(lower_match.begin(), lower_match.end(), lower_match.begin(), ::tolower);
-
-		//Push current match in the string vector
-		words.push_back(lower_match);
-
-		currentMatch++;
-
-	}
-	
-	return vector_to_string(words);
-
+	std::regex extraChar("[^\\w\\s]+");
+	std::regex extraSpace("\\s+");
+	transform(text.begin(), text.end(), text.begin(), tolower);
+	text = trim(regex_replace(regex_replace(text, extraChar, ""), extraSpace, " "));
+	return text;
 }
 
 /**
