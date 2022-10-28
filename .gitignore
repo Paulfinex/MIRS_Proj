@@ -1,3 +1,9 @@
 /**/*.exe
 /data/
 /.vscode/
+/Mirs_proj.sln
+/Mirs_proj.vcxproj
+/Mirs_proj.vcxproj.filters
+/Mirs_proj.vcxproj.user
+/x64/
+/.vs/
