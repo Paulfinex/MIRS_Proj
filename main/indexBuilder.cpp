@@ -2,10 +2,6 @@
 #include "../headers/body_normalization.hpp"
 using namespace std;
 
-vector<string> tokenize_text();
-string vector_to_string();
-string remove_stopwords();
-string remove_punctuation();
 
 int main(int argc, char const *argv[]){
   /**
@@ -19,9 +15,14 @@ int main(int argc, char const *argv[]){
    *    saving the posting list data structure as a sorted skipping list for each token
    * } 
    */
+    map < std::string, vector<tuple<int, int>>> invIndex;
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
   try{
-    ifstream infile("../data/input/sample_dataframe.tsv");
-    while(!infile.eof()){
+      int count = 0;
+    ifstream infile("C:/Users/Papera/source/repos/MIRS_Proj/data/input/sample_dataframe_5000.tsv");
+    while(!infile.eof())
+    {
+       
       string docno;
       string docbody;
       // document-by-document reading of the documents
@@ -29,30 +30,31 @@ int main(int argc, char const *argv[]){
       getline(infile, docbody, '\n');
       // text processing of the document
       docbody = remove_punctuation(docbody);
-      docbody = remove_stopwords(docbody);
-      vector<string> docsToken = tokenize_text(docbody);
-      // stemming
-      stemming::english_stem<> EngStemmer;
-      for(string s: docsToken){
-        wstring tmp = convert_to_wstring(s);
-        EngStemmer(tmp);
-        s = convert_to_string(tmp);
-        cout << s << endl;
-      }
-      system("pause");
+      docbody = remove_stopwords(docbody);      
+      vector<string> stem_tokens = text_stemming(docbody);
+      count++;
+      inverted_index(count, stem_tokens, invIndex);
 
+
+      cout << "_______" << endl << "Doc Index:";
+      doc_index(docno, docbody, count);
+      cout << endl;
       /**
        * @todo implementing document table:
        *    docno to docid mapping
        *    each docno must be mapped to a docid and a body length
        *    body length must be calculated over the modified body to better assess the doc_score in ranking
        */
-      
+      system("pause");
     }
   }catch(ifstream::failure& e){
     cout << e.what() << endl;
     exit(EXIT_FAILURE);
   }
-  
+
+  std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+  std::cout << "Time elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
+  system("pause");
   return 0;
 }
