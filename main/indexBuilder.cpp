@@ -15,28 +15,27 @@ int main(int argc, char const *argv[]){
    *    saving the posting list data structure as a sorted skipping list for each token
    * } 
    */
-    map <std::string, vector<tuple<int, int>>> invIndex;
+    map < std::string, vector<tuple<int, int>>> invIndex;
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-    int count = 0;
-    ifstream infile;
   try{
-    infile.open("../data/input/sample_dataframe_5000.tsv");
-    if(!infile.is_open()){
-      throw new ifstream::failure("Invalid input file for index building");
-    }
+      int count = 0;
+    ifstream infile("C:/Users/Papera/source/repos/MIRS_Proj/data/input/sample_dataframe_5000.tsv");
     while(!infile.eof())
     {
+       
       string docno;
       string docbody;
       // document-by-document reading of the documents
       getline(infile, docno, '\t');
       getline(infile, docbody, '\n');
       // text processing of the document
-      docbody = normalize_text(docbody);
+      docbody = remove_punctuation(docbody);
       docbody = remove_stopwords(docbody);      
       vector<string> stem_tokens = text_stemming(docbody);
       count++;
       inverted_index(count, stem_tokens, invIndex);
+
+
       cout << "_______" << endl << "Doc Index:";
       doc_index(docno, docbody, count);
       cout << endl;
@@ -46,7 +45,7 @@ int main(int argc, char const *argv[]){
        *    each docno must be mapped to a docid and a body length
        *    body length must be calculated over the modified body to better assess the doc_score in ranking
        */
-      std::system("pause");
+      system("pause");
     }
   }catch(ifstream::failure& e){
     cout << e.what() << endl;
@@ -56,6 +55,6 @@ int main(int argc, char const *argv[]){
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
   std::cout << "Time elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
-  std::system("pause");
+  system("pause");
   return 0;
 }

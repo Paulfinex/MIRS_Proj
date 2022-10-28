@@ -10,12 +10,9 @@
 #include <map>
 #include "../headers/olestem/stemming/english_stem.h"
 
-/**
- * @brief function converting a string into its tokens
- * 
- * @param body the string to be tokenized
- * @return the vector of the tokens
- */
+
+
+//Return a vector composed by each separate token in a string
 std::vector<std::string> tokenize_text(std::string body)
 {
 	std::stringstream ss(body);
@@ -32,12 +29,7 @@ std::vector<std::string> tokenize_text(std::string body)
 	return vstrings;
 }
 
-/**
- * @brief function to convert a vector of tokens into a space-separated string
- * 
- * @param vec the vector to be converted
- * @return a space-separated string with all the elements of the passed vector
- */
+//Return a string with all the vector elements separated by space
 std::string vector_to_string(std::vector <std::string> vec)
 {
 	std::string string_builder;
@@ -47,13 +39,6 @@ std::string vector_to_string(std::vector <std::string> vec)
 	return string_builder;
 }
 
-/**
- * @brief function removing the stopwords from a string, the function will read from a file
- * the list of stopwords line-by-line and will erase iteratively from the body parameter the found stopwords
- * 
- * @param body the string from where to remove stopwords
- * @return modified string without stopwords
- */
 std::string remove_stopwords(std::string body)
 {
 	std::string line;
@@ -78,13 +63,8 @@ std::string remove_stopwords(std::string body)
 }
 
 
-/**
- * @brief function normalizing the passed string
- * 
- * @param body the string to be normalized
- * @return normalized string
- */
-std::string normalize_text(std::string body)
+
+std::string remove_punctuation(std::string body)
 {
 	std::string text = body;
 	std::regex regexp("[A-Za-z0-9]{1,}");
@@ -118,35 +98,20 @@ std::string normalize_text(std::string body)
 
 }
 
-/**
- * @brief function that converts a string to it's utf-8 representation
- * 
- * @param s the string to be converted
- * @return the utf-8 representation of the string
- */
+//Convert from sting to wstring
 std::wstring convert_to_wstring(std::string s){
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 	return converter.from_bytes(s);
 }
 
-/**
- * @brief function that converts an utf-8 representation string to a standard string of bytes
- * 
- * @param s the utf-8 string to be converted
- * @return bytes representation of the utf-8 string
- */
+//Convert from wstring to string
 std::string convert_to_string(std::wstring s){
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 	return converter.to_bytes(s);
 }
 
 
-/**
- * @brief function that splits a string to its stemmed tokens using Porter's Stemming
- * 
- * @param text string to be stemmed and tokenized
- * @return vector of stemmed tokens
- */
+// Stemming
 std::vector<std::string> text_stemming(std::string text) 
 {
 
@@ -163,13 +128,6 @@ std::vector<std::string> text_stemming(std::string text)
 
 }
 
-/**
- * @brief function appending the document to the doc_index file @ "../data/output/doc_index.out" in binary
- * 
- * @param docno the docid taken from the input file
- * @param docbody possiamo passare solo la length del docbody?
- * @param docid the mapped docid for the docno
- */
 void doc_index(std::string docno, std::string docbody, int docid)
 {
 	std::cout << docno + "," <<docid<<","<< docbody.length() << std::endl;
@@ -177,13 +135,7 @@ void doc_index(std::string docno, std::string docbody, int docid)
 	//Todo write to file (docno,docid,len)
 }
 
-/**
- * @deprecated se dobbiamo analizzare documento per documento avremmo tutti i token, 
- * le frequenze e quant'altro per quel documento quindi basterebbe solamente fare l'append nel file
- * @ "../data/output/inv_index.out" inserendo il nuovo elemento della postings list in tutti i termini che appaiono
- * nel documento
- */
-void inverted_index(int docid, std::vector<std::string> stem_words,std::map<std::string, std::vector<std::tuple<int,int>>> invIndex)
+void inverted_index(int docid,std::vector<std::string> stem_words,std::map<std::string, std::vector<std::tuple<int,int>>> invIndex)
 {
 	std::vector<std::string> unique_words = stem_words;
 	unique_words.erase(unique(unique_words.begin(), unique_words.end()), unique_words.end());
