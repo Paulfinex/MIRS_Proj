@@ -8,7 +8,7 @@ int main(int argc, char const *argv[]){
    * @todo reading file line-by-line and foreach line{
    *    punctuation and extra characters removal
    *    space normalization(removing extra spaces and trim)
-   *    tolowercase of the single tokens
+   *    tolowercase of the single tokens2
    *    stopwords removal by simply not inserting the token if it is in the stopwords
    *    stemming
    *    saving of the token into vocabulary where we save for each termid the length of the posting list
@@ -47,7 +47,6 @@ int main(int argc, char const *argv[]){
        *    each docno must be mapped to a docid and a body length
        *    body length must be calculated over the modified body to better assess the doc_score in ranking
        */
-      std::system("pause");
     }
   }catch(ifstream::failure& e){
     cout << e.what() << endl;
