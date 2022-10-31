@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]){
     int count = 0;
     ifstream infile;
   try{
-    infile.open("../data/input/sample_dataframe_5000.tsv");
+    infile.open("../data/input/collection.tsv");
     if(!infile.is_open()){
       throw new ifstream::failure("Invalid input file for index building");
     }
@@ -31,6 +31,7 @@ int main(int argc, char const *argv[]){
       // document-by-document reading of the documents
       getline(infile, docno, '\t');
       getline(infile, docbody, '\n');
+      if(docbody.size() == 0) continue;
       // text processing of the document
       docbody = normalize_text(docbody);
       vector<string> tokens = tokenize_text(docbody);
@@ -47,7 +48,7 @@ int main(int argc, char const *argv[]){
        *    each docno must be mapped to a docid and a body length
        *    body length must be calculated over the modified body to better assess the doc_score in ranking
        */
-      std::system("pause");
+      // std::system("pause");
     }
   }catch(ifstream::failure& e){
     cout << e.what() << endl;
@@ -57,6 +58,6 @@ int main(int argc, char const *argv[]){
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
   std::cout << "Time elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
-  std::system("pause");
+  // std::system("pause");
   return 0;
 }
