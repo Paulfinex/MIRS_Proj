@@ -28,19 +28,29 @@ int main(int argc, char const *argv[]){
     {
       string docno;
       string docbody;
+      
+
       // document-by-document reading of the documents
       getline(infile, docno, '\t');
       getline(infile, docbody, '\n');
+      
+
+      // Skip empty docs
+      if (docbody=="")
+      {
+        continue;
+      }
+
+      
       // text processing of the document
       docbody = normalize_text(docbody);
+      cout<<docbody<<endl;
       vector<string> tokens = tokenize_text(docbody);
       tokens = remove_stopwords(tokens);      
       vector<string> stem_tokens = stemmer(tokens);
       count++;
-      inverted_index(count, stem_tokens, invIndex);
-      cout << "_______" << endl << "Doc Index:";
-      doc_index(docno, docbody, count);
-      cout << endl;
+      //inverted_index(count, stem_tokens, invIndex);
+      //doc_index(docno, docbody, count);
       /**
        * @todo implementing document table:
        *    docno to docid mapping

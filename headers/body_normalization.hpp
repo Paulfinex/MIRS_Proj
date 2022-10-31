@@ -7,6 +7,7 @@
 #include <locale>
 #include <codecvt>
 #include <chrono>
+#include <algorithm>
 #include <map>
 #include "../headers/olestem/stemming/english_stem.h"
 
@@ -31,6 +32,23 @@ std::vector<std::string> tokenize_text(std::string body)
 		}
 	return vstrings;
 }
+
+/**
+ *@brief Function to write a string to a file 
+ *
+ *@param path the path of the output file
+ * @param text the string to be written on the file
+ * 
+*/
+/*
+void write_to_file(std::string path, std::string text)
+{
+  std::wofstream wfile(path);
+  wfile<<convert_to_wstring(text)<<std::endl;
+  wfile.close();
+}
+*/
+
 
 /**
  * @brief function to convert a vector of tokens into a space-separated string
@@ -106,7 +124,7 @@ std::string normalize_text(std::string body)
 	// regex for extra spaces removal
 	std::regex extraSpace("\\s+");
 	// lowercasing
-	transform(text.begin(), text.end(), text.begin(), tolower);
+	transform(text.begin(), text.end(), text.begin(),  [](unsigned char c){ return std::tolower(c); });
 	// replacing and trimming of the text string
 	text = trim(regex_replace(regex_replace(text, extraChar, ""), extraSpace, " "));
 	return text;
@@ -165,8 +183,10 @@ std::vector<std::string> stemmer(std::vector<std::string> docsTokens) {
 void doc_index(std::string docno, std::string docbody, int docid)
 {
 	std::cout << docno + "," <<docid<<","<< docbody.length() << std::endl;
+	/*std::string doclen =  std::to_string(docbody.length());
+	std::string doc_entry = docno + ","+ docno + "," +doclen+ '\n';
 	int len = docbody.length();
-	//Todo write to file (docno,docid,len)
+	write_to_file("../data/output/docindex.txt",doc_entry);*/
 }
 
 /**
@@ -194,3 +214,4 @@ void inverted_index(int docid, std::vector<std::string> stem_words,std::map<std:
 
 
 }
+

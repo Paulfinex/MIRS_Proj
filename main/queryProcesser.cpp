@@ -39,5 +39,6 @@ int main(int argc, char const *argv[])
     tokens = remove_stopwords(tokens);
     vector<string> stem_tokens = stemmer(tokens);
     
+    
     return 0;
 }
