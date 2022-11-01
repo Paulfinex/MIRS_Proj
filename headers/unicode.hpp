@@ -39,7 +39,7 @@ u8char readUnicode(std::ifstream& infile){
 }
 
 /**
- * @brief usage example
+ * @brief read-write example
  */
 // void mainExample(){
 //   ifstream infile("file.txt", ios::binary);
