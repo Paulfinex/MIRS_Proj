@@ -1,10 +1,12 @@
 #include "../headers/olestem/stemming/english_stem.h"
-#include "../headers/body_normalization.hpp"
+#include "../headers/text_normalization.hpp"
 #include "../headers/indexbuilder.hpp"
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
+
+
   /**
    * @todo reading file line-by-line and foreach line{
    *    punctuation and extra characters removal
@@ -16,6 +18,9 @@ int main(int argc, char const *argv[])
    *    saving the posting list data structure as a sorted skipping list for each token
    * }
    */
+
+
+  
   map<std::string, vector<tuple<int, int>>> invIndex;
  
   
@@ -67,12 +72,7 @@ int main(int argc, char const *argv[])
         chunkCount=0;
       }
 
-      /**
-       * @todo implementing document table:
-       *    docno to docid mapping
-       *    each docno must be mapped to a docid and a body length
-       *    body length must be calculated over the modified body to better assess the doc_score in ranking
-       */
+ 
     }
   }
   catch (ifstream::failure &e)
