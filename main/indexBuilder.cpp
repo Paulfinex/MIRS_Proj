@@ -1,6 +1,6 @@
 #include "../headers/olestem/stemming/english_stem.h"
 #include "../headers/text_normalization.hpp"
-#include "index_build.hpp"
+#include "../headers/index_build.hpp"
 #include <chrono>
 using namespace std;
 
