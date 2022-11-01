@@ -37,3 +37,22 @@ std::string doc_index(std::string docno, int docSize, int docid)
     // std::cout << doc_enty<<endl;
 	return doc_entry;
 }
+
+
+
+std::vector<std::string> inverted_index(int docid, std::vector<std::string> stem_words)
+{
+	std::vector<std::string> unique_words = stem_words;
+	std::vector<std::string> invInd;
+	std::sort(unique_words.begin(), unique_words.end());
+	unique_words.erase(unique(unique_words.begin(), unique_words.end()), unique_words.end());
+	for (std::string s : unique_words)
+	{
+
+		std::string str_builder = "";
+		int word_count = count(stem_words.begin(), stem_words.end(), s);
+		str_builder+=s+":["+std::to_string(docid)+","+ std::to_string(word_count)+"]\n";
+		invInd.push_back(str_builder);
+	}
+	return invInd;
+}

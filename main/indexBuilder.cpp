@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
    * }
    */
 
-
+/**/
   
   map<std::string, vector<tuple<int, int>>> invIndex;
  
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
   vector<string> docIndexChunk;
   try
   {
-    infile.open("../data/input/collection.tsv");
+    infile.open("../data/input/sample_dataframe_5000.tsv");
     if (!infile.is_open())
     {
       throw new ifstream::failure("Invalid input file for index building");
@@ -57,10 +57,13 @@ int main(int argc, char const *argv[])
       tokens = remove_stopwords(tokens);
       vector<string> stem_tokens = stemmer(tokens);
 
+      
       docCount++;
+
       chunkCount++;
-            
-      //inverted_index(docCount, stem_tokens, invIndex);
+      
+      write_vec_to_file("../data/output/invindex.txt",inverted_index(docCount,stem_tokens));
+      /*      
       int docLen = vector_to_string(tokens).length();
       string curr_doc_ind = doc_index(docno, docLen, docCount);
       docIndexChunk.push_back(curr_doc_ind);
@@ -71,7 +74,7 @@ int main(int argc, char const *argv[])
         docIndexChunk.clear();
         chunkCount=0;
       }
-
+*/
  
     }
   }
@@ -80,11 +83,11 @@ int main(int argc, char const *argv[])
     cout << e.what() << endl;
     exit(EXIT_FAILURE);
   }
-
+/*
   //Last chunk
   write_vec_to_file("../data/output/docindex.txt",docIndexChunk);
   docIndexChunk.clear();
 
-
+  */
   return 0;
 }
