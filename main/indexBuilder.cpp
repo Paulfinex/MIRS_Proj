@@ -1,5 +1,6 @@
 #include "../headers/olestem/stemming/english_stem.h"
 #include "../headers/body_normalization.hpp"
+#include "../headers/indexbuilder.hpp"
 using namespace std;
 
 int main(int argc, char const *argv[])
@@ -16,14 +17,16 @@ int main(int argc, char const *argv[])
    * }
    */
   map<std::string, vector<tuple<int, int>>> invIndex;
-  std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-  int count = 0;
+ 
+  
+  size_t docCount = 0;
+  unsigned int chunkCount = 0;
   ifstream infile;
 
   vector<string> docIndexChunk;
   try
   {
-    infile.open("../data/input/sample_dataframe_5000.tsv");
+    infile.open("../data/input/collection.tsv");
     if (!infile.is_open())
     {
       throw new ifstream::failure("Invalid input file for index building");
@@ -48,15 +51,22 @@ int main(int argc, char const *argv[])
       vector<string> tokens = tokenize_text(docbody);
       tokens = remove_stopwords(tokens);
       vector<string> stem_tokens = stemmer(tokens);
-      count++;
-      inverted_index(count, stem_tokens, invIndex);
-      string curr_doc_ind = doc_index(docno, docbody, count);
+
+      docCount++;
+      chunkCount++;
+            
+      //inverted_index(docCount, stem_tokens, invIndex);
+      int docLen = vector_to_string(tokens).length();
+      string curr_doc_ind = doc_index(docno, docLen, docCount);
       docIndexChunk.push_back(curr_doc_ind);
-      if ((count % 500) == 0)
+      if (chunkCount == 5000) 
       {
+        cout<<"Writing docIndex chunk to file. Last docNo processed:" << to_string(docCount)<<endl;
         write_vec_to_file("../data/output/docindex.txt",docIndexChunk);
         docIndexChunk.clear();
+        chunkCount=0;
       }
+
       /**
        * @todo implementing document table:
        *    docno to docid mapping
@@ -70,11 +80,11 @@ int main(int argc, char const *argv[])
     cout << e.what() << endl;
     exit(EXIT_FAILURE);
   }
+
+  //Last chunk
   write_vec_to_file("../data/output/docindex.txt",docIndexChunk);
   docIndexChunk.clear();
-  std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
-  std::cout << "Time elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
-  
+
   return 0;
 }
