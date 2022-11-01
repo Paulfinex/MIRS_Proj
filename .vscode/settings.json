@@ -76,8 +76,5 @@
     "xmemory": "cpp",
     "xstddef": "cpp",
     "xtr1common": "cpp"
-  },
-  "code-runner.executorMap": {
-    "cpp": "cd $dir && g++ $fileName -I $dir -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
   }
 }
