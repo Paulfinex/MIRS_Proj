@@ -1,4 +1,5 @@
 /**/*.exe
+/headers/boost
 /data/
 /Mirs_proj.sln
 /Mirs_proj.vcxproj
