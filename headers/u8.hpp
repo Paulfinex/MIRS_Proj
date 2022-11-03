@@ -1,19 +1,29 @@
+#pragma once
 #include <fstream>
+#include <vector>
 
 struct u8char{
-  char* c;
-  size_t nbytes;
+  char* bytes;
+  unsigned int nbytes;
+};
+
+struct u8string{
+  std::vector<u8char> characters;
+  size_t length;
 };
 
 /**
- * @param c byte to check
- * @return the count of consecutive most significant 1s present in c
+ * @brief counts the number of consecutive 1s from the most significant bit for a first utf8-string byte hence
+ * counting the total bytes that are necessary to read to represent the utf8 character
+ * 
+ * @param c the byte
+ * @return the number of consecutive 1s starting from the most significant bit
  */
-int count_lones(char c){
-  for (int i = 0; i < 8; i++,c=c<<1){
-    if ((c & 128) == 0) return i == 0 ? i+1 : i;
+unsigned int count_nbytes(char c){
+  for (int i = 0; i < 7; i++, c=c<<1){
+    if ((c & 128) == 0) return i == 0 ? 1 : i;
   }
-  return 8;
+  return 6; // maximum number of consecutive 1s in the first byte of utf-8 chars
 }
 
 /**
@@ -25,18 +35,46 @@ int count_lones(char c){
 u8char readUnicode(std::ifstream& infile){
   char byte;
   infile.read(&byte, 1);
-  size_t const nbytes = count_lones(byte); // this will return the number of 1s corresponding to the number of total bytes
+  size_t const nbytes = count_nbytes(byte); // this will return the number of 1s corresponding to the number of total bytes
   u8char res;
   res.nbytes = nbytes;
-  res.c = (char*)malloc(nbytes * sizeof(char)); // this will initialize an array of
-  res.c[0] = byte;
+  res.bytes = (char*)malloc(nbytes * sizeof(char)); // this will initialize an array of
+  res.bytes[0] = byte;
   for (int i = 1; i < nbytes; i++){
     char tmp;
     infile.read(&tmp, 1);
-    res.c[i] = tmp;
+    res.bytes[i] = tmp;
   }
   return res;
 }
+
+/**
+ * @brief creates a u8string representation for the given string
+ * 
+ * @param s string to be represented in utf8
+ * @return u8string representation of the string s
+ */
+u8string to_u8string(std::string s){
+  u8string result;
+  unsigned int len = 0;
+  for (size_t i = 0; i < s.length();){
+    size_t nbytes = count_nbytes(s[i]);
+    u8char codepoint;
+    codepoint.nbytes = nbytes;
+    codepoint.bytes = (char*)malloc((nbytes+1) * sizeof(char));
+    for (int j = 0; j < nbytes; j++){
+      codepoint.bytes[j] = s[i+j];
+      if(j == nbytes-1){
+        codepoint.bytes[j + 1] = '\0';
+      }
+    }
+    i += nbytes;
+    result.characters.push_back(codepoint);
+  }
+  result.length = result.characters.size();
+  return result;
+}
+
 
 /**
  * @brief read-write example
