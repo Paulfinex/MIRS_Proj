@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <vector>
+#include <cmath>
 
 struct u8char{
   std::vector<char> bytes;
@@ -53,13 +54,13 @@ u8string to_u8string(std::string s){
     tmp.nbytes = nbytes;
     tmp.decimal = 0;
     if(nbytes > 1){
-      tmp.decimal += calcDec(bytes[i], true, nbytes);
+      tmp.decimal += (calcDec(s[i], true, nbytes)*pow(64,nbytes-1));
     }else{
       tmp.decimal += bytes[i];
     }
     for (int j = 1; j < nbytes; j++){
       tmp.bytes.push_back(bytes[i]);
-      tmp.decimal += calcDec(bytes[i + j], false, nbytes);
+      tmp.decimal += (calcDec(s[i + j], false, nbytes)*pow(64,nbytes-j-1));
     }
     result.characters.push_back(tmp);
     i += nbytes;
