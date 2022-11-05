@@ -4,7 +4,7 @@
 #include <cmath>
 
 struct u8char{
-  std::vector<char> bytes;
+  char* bytes;
   unsigned int nbytes;
   size_t decimal;
 };
@@ -44,23 +44,28 @@ int calcDec(char c, bool isFirst, int nbytes){
  * @return u8string representation of the string s
  */
 u8string to_u8string(std::string s){
-  std::vector<char> bytes(s.begin(), s.end());
   u8string result;
   result.length = 0;
-  for (int i = 0; i < bytes.size();){
-    int nbytes = count_nbytes(bytes[i]);
+  for (int i = 0; i < s.size();){
+    int nbytes = count_nbytes(s[i]);
     result.length+=1;
     u8char tmp;
     tmp.nbytes = nbytes;
+    tmp.bytes = (char*)malloc((nbytes + 1) * sizeof(char));
+    tmp.bytes[0] = s[i];
     tmp.decimal = 0;
     if(nbytes > 1){
       tmp.decimal += (calcDec(s[i], true, nbytes)*pow(64,nbytes-1));
     }else{
-      tmp.decimal += bytes[i];
+      tmp.decimal += s[i];
+      tmp.bytes[1] = '\0';
     }
     for (int j = 1; j < nbytes; j++){
-      tmp.bytes.push_back(bytes[i]);
+      tmp.bytes[j] = s[i + j];
       tmp.decimal += (calcDec(s[i + j], false, nbytes)*pow(64,nbytes-j-1));
+      if(j == nbytes-1){
+        tmp.bytes[j + 1] = '\0';
+      }
     }
     result.characters.push_back(tmp);
     i += nbytes;
