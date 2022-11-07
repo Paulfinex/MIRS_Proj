@@ -11,6 +11,32 @@
 #include <map>
 #include "../headers/olestem/stemming/english_stem.h"
 
+
+
+/**
+ * @brief function that converts a string to it's utf-8 representation
+ *
+ * @param s the string to be converted
+ * @return the utf-8 representation of the string
+ */
+std::wstring convert_to_wstring(std::string s)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+	return converter.from_bytes(s);
+}
+
+/**
+ * @brief function that converts an utf-8 representation string to a standard string of bytes
+ *
+ * @param s the utf-8 string to be converted
+ * @return bytes representation of the utf-8 string
+ */
+std::string convert_to_string(std::wstring s)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+	return converter.to_bytes(s);
+}
+
 /**
  * @brief function converting a string into its tokens
  *
@@ -94,7 +120,10 @@ std::string trim(std::string s)
 	std::regex rtrim("$\\s+");
 	return regex_replace(regex_replace(s, ltrim, ""), rtrim, "");
 }
-
+bool invalidChar(char c)
+{
+	return !(c >= 0 && c < 128);
+}
 /**
  * @brief function normalizing the passed string
  *
@@ -103,41 +132,17 @@ std::string trim(std::string s)
  */
 std::string normalize_text(std::string body)
 {
-	std::string text = body;
+	std::wstring text = convert_to_wstring(body);
+	//text.erase(remove_if(text.begin(), text.end(), invalidChar), text.end());
 	// regex for extra characters removal
-	std::regex extraChar("[^\\w\\s]+");
+	std::wregex extraChar(L"[^\\w\\s\\p{L}]+");
 	// regex for extra spaces removal
-	std::regex extraSpace("\\s+");
+	std::wregex extraSpace(L"\\s+");
 	// lowercasing
-	transform(text.begin(), text.end(), text.begin(), [](unsigned char c)
-			  { return std::tolower(c); });
+	transform(text.begin(), text.end(), text.begin(), [](unsigned char c){ return std::towlower(c); });
 	// replacing and trimming of the text string
-	text = trim(regex_replace(regex_replace(text, extraChar, ""), extraSpace, " "));
-	return text;
-}
+	return trim(convert_to_string(regex_replace(regex_replace(text, extraChar, L""), extraSpace, L" ")));
 
-/**
- * @brief function that converts a string to it's utf-8 representation
- *
- * @param s the string to be converted
- * @return the utf-8 representation of the string
- */
-std::wstring convert_to_wstring(std::string s)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-	return converter.from_bytes(s);
-}
-
-/**
- * @brief function that converts an utf-8 representation string to a standard string of bytes
- *
- * @param s the utf-8 string to be converted
- * @return bytes representation of the utf-8 string
- */
-std::string convert_to_string(std::wstring s)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-	return converter.to_bytes(s);
 }
 
 /**
@@ -161,28 +166,3 @@ std::vector<std::string> stemmer(std::vector<std::string> docsTokens)
 	return resultToken;
 }
 
-/**
- * @deprecated se dobbiamo analizzare documento per documento avremmo tutti i token,
- * le frequenze e quant'altro per quel documento quindi basterebbe solamente fare l'append nel file
- * @ "../data/output/inv_index.out" inserendo il nuovo elemento della postings list in tutti i termini che appaiono
- * nel documento
- */
-void inverted_index(int docid, std::vector<std::string> stem_words, std::map<std::string, std::vector<std::tuple<int, int>>> invIndex)
-{
-	std::vector<std::string> unique_words = stem_words;
-	std::sort(unique_words.begin(), unique_words.end());
-	unique_words.erase(unique(unique_words.begin(), unique_words.end()), unique_words.end());
-
-	std::map<std::string, std::vector<std::tuple<int, int>>> tmpIndex = invIndex;
-	std::tuple<int, int> docid_freq;
-	for (std::string s : unique_words)
-	{
-		int word_count = count(stem_words.begin(), stem_words.end(), s);
-		docid_freq = std::make_tuple(docid, word_count);
-
-		// std::cout << s << " " << docid << "," << word_count << std::endl;
-
-		// TODO insert in map
-		// tmpIndex.insert({ s,docid_freq });
-	}
-}
