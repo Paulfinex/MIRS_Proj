@@ -52,7 +52,7 @@ namespace u8lib{
         return ((d >= 408 && d <= 409)||(d >= 488 && d <= 489));
       }
       static bool L_RANGE(size_t d){
-        return ((d >= 410 && d <= 411)||(d==564)&&(d==573));
+        return ((d >= 410 && d <= 411)||(d==564)||(d==573));
       }
       static bool Lj_RANGE(size_t d){
         return ((d >= 455 && d <= 457));
@@ -106,7 +106,7 @@ namespace u8lib{
         return ((d>=437 && d<=439)||(d>=548 && d<=549)||(d==576));
       }
     public:
-      std::string rangeTranslate(size_t d){
+      static std::string rangeTranslate(size_t d){
         if(A_RANGE(d)){
           return "a";
         }else if(Ae_RANGE(d)){

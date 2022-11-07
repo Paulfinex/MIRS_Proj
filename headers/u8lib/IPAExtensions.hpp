@@ -3,73 +3,90 @@
 
 namespace u8lib{
   /** 
-   * Latin extended A  
-   * @cite https://www.compart.com/en/unicode/block/U+0100 
-   * Range Unicode 256-383 
+   * IPA  
+   * @cite https://www.compart.com/en/unicode/block/U+0250
+   * Range Unicode 592-687 
   */
-  class LatinA{
+  class IPA{
     private:
       static bool A_RANGE(size_t d){
-        return ( (d>=256 && d<=261) );
+        return ((d>=592 && d<=594));
+      }
+      static bool B_RANGE(size_t d){
+        return (d==595 || d == 665);
       }
       static bool C_RANGE(size_t d){
-        return ( (d>=262 && d<=269) );
+        return (d==597 || d==663);
       }
       static bool D_RANGE(size_t d){
-        return ( (d>=270 && d<=273) );
+        return ((d>=598 && d<=599));
       }
       static bool E_RANGE(size_t d){
-        return ( (d>=274 && d<=283) );
+        return ((d>=600 && d<=606) || d == 666);
       }
       static bool G_RANGE(size_t d){
-        return ((d >= 284 && d <= 291));
+        return ((d>=608 && d<=612) || d==667);
       }
       static bool H_RANGE(size_t d){
-        return ((d >= 292 && d <= 295));
+        return ((d>=613 && d<=615) || d==668 || (d>=686 && d<=687));
       }
       static bool I_RANGE(size_t d){
-        return ((d >= 296 && d <= 305));
+        return ((d>=616 && d<=618));
       }
       static bool J_RANGE(size_t d){
-        return ((d >= 308 && d <= 309));
+        return (d==607 || d == 669);
       }
       static bool K_RANGE(size_t d){
-        return ((d >= 310 && d <= 312));
+        return (d==670);
       }
       static bool L_RANGE(size_t d){
-        return ((d >= 313 && d <= 322));
+        return ((d>=619 && d<=621) || d==671);
+      }
+      static bool M_RANGE(size_t d){
+        return ((d>=623 && d<=625));
       }
       static bool N_RANGE(size_t d){
-        return ((d>=323 && d<=331));
+        return ((d>=626 && d<=628));
       }
       static bool O_RANGE(size_t d){
-        return ((d>=332 && d<=337));
+        return (d==596 || d == 629 || d==631 || d==664);
+      }
+      static bool P_RANGE(size_t d){
+        return (d == 632);
+      }
+      static bool Q_RANGE(size_t d){
+        return (d==672);
       }
       static bool R_RANGE(size_t d){
-        return ((d>=340 && d<=345));
+        return ((d>=633 && d<=641));
       }
       static bool S_RANGE(size_t d){
-        return ((d>=346 && d<=353) || d == 383);
+        return (d == 642);
       }
       static bool T_RANGE(size_t d){
-        return ((d>=354 && d<=359));
+        return (d>=647 && d<=648);
       }
       static bool U_RANGE(size_t d){
-        return ((d>=360 && d<=371));
+        return (d==649);
+      }
+      static bool V_RANGE(size_t d){
+        return (d >= 651 && d<=652);
       }
       static bool W_RANGE(size_t d){
-        return ((d>=372 && d<=373));
+        return (d==653);
       }
       static bool Y_RANGE(size_t d){
-        return ((d>=374 && d<=376));
+        return ((d>=654 && d<=655) || d == 650);
       }
       static bool Z_RANGE(size_t d){
-        return ((d>=377 && d<=382));
+        return (d>=656 && d<=657);
       }
     public:
       static std::string rangeTranslate(size_t d){
         if(A_RANGE(d)){
           return "a";
+        }else if(B_RANGE(d)){
+          return "b";
         }else if(C_RANGE(d)){
           return "c";
         }else if(D_RANGE(d)){
@@ -88,10 +105,16 @@ namespace u8lib{
           return "k";
         }else if(L_RANGE(d)){
           return "l";
+        }else if(M_RANGE(d)){
+          return "m";
         }else if(N_RANGE(d)){
           return "n";
         }else if(O_RANGE(d)){
           return "o";
+        }else if(P_RANGE(d)){
+          return "p";
+        }else if(Q_RANGE(d)){
+          return "q";
         }else if(R_RANGE(d)){
           return "r";
         }else if(S_RANGE(d)){
@@ -100,21 +123,29 @@ namespace u8lib{
           return "t";
         }else if(U_RANGE(d)){
           return "u";
+        }else if(V_RANGE(d)){
+          return "v";
         }else if(W_RANGE(d)){
           return "w";
         }else if(Y_RANGE(d)){
           return "y";
         }else if(Z_RANGE(d)){
           return "z";
-        }else if(d>=306 && d<=307){
-          return "ij";
-        }else if(d >= 338 && d<=339){
+        }else if(d==630){
           return "oe";
+        }else if(d==675 || d==677){
+          return "dz";
+        }else if(d==678){
+          return "ts";
+        }else if(d==680){
+          return "tc";
+        }else if(d==682){
+          return "ls";
+        }else if(d==683){
+          return "lz";
         }else{
           return ""; // not found means we have to substitute with empty string
         }
       }
   };
-
-  
 };  // namespace u8lib

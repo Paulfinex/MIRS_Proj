@@ -2,10 +2,15 @@
 #include <iostream>
 
 namespace u8lib{
+  /** 
+   * Latin Supplement 1  
+   * @cite https://www.compart.com/en/unicode/block/U+0080
+   * Range Unicode 128-255 
+  */
   class LatinSupplement1{
     private:
       static bool A_RANGE(size_t d){
-        return (d == 170 || (d>=192 && d<=197) || (d>=224 && d<=230) );
+        return (d == 170 || (d>=192 && d<=197) || (d>=224 && d<=230));
       }
       static bool C_RANGE(size_t d){
         return (d == 200 || d == 231);
@@ -35,6 +40,9 @@ namespace u8lib{
         return (d == 221 || d==253 || d == 255);
       }
     public:
+      static bool IS_CONTROL(size_t d){
+          return ((d >= 128 && d <= 160));
+      }
       static std::string rangeTranslate(size_t d){
         if(A_RANGE(d)){
           return "a";
