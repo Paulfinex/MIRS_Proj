@@ -71,7 +71,11 @@ std::vector<std::string> remove_stopwords(std::vector<std::string> words)
 	}
 	return words;
 }
-
+/**
+ * @brief function to print a string for debugging
+ * 
+ * @param s the string to print
+*/
 void debug(std::string s){
 	std::cout << s << std::endl;
 	std::system("pause");
