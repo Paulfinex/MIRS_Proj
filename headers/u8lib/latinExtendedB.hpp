@@ -61,7 +61,7 @@ namespace u8lib{
         return ((d==412));
       }
       static bool N_RANGE(size_t d){
-        return ((d>=413 && d<=414)||(d>=504 && d<=505)||(d==544)&&(d==565));
+        return ((d>=413 && d<=414)||(d>=504 && d<=505)||(d==544)||(d==565));
       }
       static bool Nj_RANGE(size_t d){
         return ((d>=458 && d<=460));
