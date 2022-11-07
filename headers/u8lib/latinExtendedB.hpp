@@ -2,7 +2,11 @@
 #include <iostream>
 
 namespace u8lib{
-  //Latin Extended - B https://www.compart.com/en/unicode/block/U+0100
+/**
+ * Latin extended B 
+ * @cite https://www.compart.com/en/unicode/block/U+0180
+ * Range Unicode 384-591
+*/
   class LatinB{
     private:
       static bool A_RANGE(size_t d){
