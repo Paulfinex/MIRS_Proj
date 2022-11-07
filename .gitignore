@@ -1,6 +1,6 @@
 /**/*.exe
+/headers/boost
 /data/
-/.vscode/
 /Mirs_proj.sln
 /Mirs_proj.vcxproj
 /Mirs_proj.vcxproj.filters
