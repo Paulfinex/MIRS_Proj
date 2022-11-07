@@ -3,7 +3,7 @@
 #include <map>
 
 namespace u8lib{
-  //Lating Extended - A https://www.compart.com/en/unicode/block/U+0100
+  //Latin Extended - A https://www.compart.com/en/unicode/block/U+0100
   class LatinA{
     private:
       static bool A_RANGE(size_t d){
