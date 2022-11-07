@@ -28,7 +28,7 @@ namespace u8lib{
         return ( (d>=452 && d<=454)|| (d>=497 && d<=499));
       }
       static bool E_RANGE(size_t d){
-        return ( (d>=398 && d<=400) || (d==477)||(d>=516||d<=519)||(d>=552||d<=553)||(d>=582||d<=583)||(d>=439||d<=442));
+        return ( (d>=398 && d<=400) || (d==477)||(d>=516&&d<=519)||(d>=552&&d<=553)||(d>=582&&d<=583)||(d>=439&&d<=442));
       }
       static bool F_RANGE(size_t d){
         return ((d >= 401 && d <= 402));
@@ -49,7 +49,7 @@ namespace u8lib{
         return ((d >= 408 && d <= 409)||(d >= 488 && d <= 489));
       }
       static bool L_RANGE(size_t d){
-        return ((d >= 410 && d <= 411)||(d==564)||(d==573));
+        return ((d >= 410 && d <= 411)||(d==564)&&(d==573));
       }
       static bool Lj_RANGE(size_t d){
         return ((d >= 455 && d <= 457));
@@ -58,7 +58,7 @@ namespace u8lib{
         return ((d==412));
       }
       static bool N_RANGE(size_t d){
-        return ((d>=413 && d<=414)||(d>=504 && d<=505)||(d==544)||(d==565));
+        return ((d>=413 && d<=414)||(d>=504 && d<=505)||(d==544)&&(d==565));
       }
       static bool Nj_RANGE(size_t d){
         return ((d>=458 && d<=460));
