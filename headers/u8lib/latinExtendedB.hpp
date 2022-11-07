@@ -1,10 +1,9 @@
 #pragma once
 #include <iostream>
-#include <map>
 
 namespace u8lib{
   //Latin Extended - A https://www.compart.com/en/unicode/block/U+0100
-  class LatinA{
+  class LatinB{
     private:
       static bool A_RANGE(size_t d){
         return ( (d>=461 && d<=462) || (d>=478 && d<=481) ||(d>=506 && d<=507) ||(d>=512 && d<=515)||(d>=550 && d<=551) ||(d==570));
@@ -103,7 +102,6 @@ namespace u8lib{
         return ((d>=437 && d<=439)||(d>=548 && d<=549)||(d==576));
       }
     public:
-      std::map<int, std::string> toWord;
       std::string rangeTranslate(size_t d){
         if(A_RANGE(d)){
           return "a";
