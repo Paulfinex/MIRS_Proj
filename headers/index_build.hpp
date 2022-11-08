@@ -42,3 +42,4 @@ void inverted_index(int docid, std::vector<std::string> stem_words,std::map<std:
 		//tmpIndex.insert({ s,docid_freq });
 	}
 }
+
