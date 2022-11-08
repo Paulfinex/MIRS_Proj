@@ -114,6 +114,7 @@ std::string normalize_text(std::string body)
 }
 
 /**
+ * @deprecated maybe place it in u8lib?
  * @brief function that converts a string to it's utf-8 representation
  * 
  * @param s the string to be converted
@@ -125,6 +126,7 @@ std::wstring convert_to_wstring(std::string s){
 }
 
 /**
+ * @deprecated maybe place it in u8lib?
  * @brief function that converts an utf-8 representation string to a standard string of bytes
  * 
  * @param s the utf-8 string to be converted

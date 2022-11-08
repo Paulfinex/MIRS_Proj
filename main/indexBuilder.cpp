@@ -1,14 +1,17 @@
 #include "../headers/olestem/stemming/english_stem.h"
 #include "../headers/text_normalization.hpp"
 #include "../headers/index_build.hpp"
-#include <chrono>
 using namespace std;
 
+// std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+// std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+// std::cout << "Time elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count()
+//           << "[ms]" << std::endl;
+// std::system("pause");
 
 int main(int argc, char const *argv[]){
   
   map<std::string, vector<tuple<int, int>>> invIndex;
-  std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
   int count = 0;
   ifstream infile;
   try{
@@ -41,10 +44,5 @@ int main(int argc, char const *argv[]){
     cout << e.what() << endl;
     exit(EXIT_FAILURE);
   }
-
-  std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-
-  std::cout << "Time elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
-  // std::system("pause");
   return 0;
 }
